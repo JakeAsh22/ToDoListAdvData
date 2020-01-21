@@ -119,5 +119,17 @@ namespace ToDoList.Controllers
       _db.SaveChanges();
       return RedirectToAction("Index");
     }
+
+    [HttpPost]
+    public ActionResult CheckOff(int id, bool value)
+    {
+      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId ==id);
+      //CheckOff(thisItem);
+      if(value==true)
+      {
+        Trim(thisItem);
+      }
+      return RedirectToAction("Index");
+    }
   }
 }
