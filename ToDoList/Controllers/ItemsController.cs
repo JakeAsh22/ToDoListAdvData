@@ -121,14 +121,15 @@ namespace ToDoList.Controllers
     }
 
     [HttpPost]
-    public ActionResult CheckOff(int id, bool value)
+    public ActionResult CheckOff(int id, bool Item)
     {
-      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId ==id);
-      //CheckOff(thisItem);
-      if(value==true)
-      {
-        Trim(thisItem);
-      }
+      var thisItem = _db.Items.FirstOrDefault(items => items.ItemId == id);
+      thisItem.Complete=true;
+     // CheckOff(thisItem);
+      // if(Item==true)
+      // {
+      //   Items.Hide(thisItem);
+      // }
       return RedirectToAction("Index");
     }
   }

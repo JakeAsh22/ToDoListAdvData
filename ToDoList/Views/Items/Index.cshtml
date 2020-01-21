@@ -10,12 +10,23 @@
 
 @if (Model.Any())
 {
+  <form>
   <ul>
     @foreach (Item item in Model)
     {
-      <li>@Html.ActionLink($"{item.Description}", "Details", new { id = item.ItemId })</li>
+      <li>@Html.ActionLink($"{item.Description}", "Details", new { id = item.ItemId })
+      @if (item.Complete==false)
+      {
+        <input type="checkbox" id="CheckOff" onclick = "if(this.checked){convert()}"/>
+      }
+      else
+      {
+        <p>-completed</p>
+      }
+      </li>
     }
   </ul>
+  </form>
 } 
 else
 {
