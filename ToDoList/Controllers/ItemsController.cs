@@ -26,13 +26,10 @@ namespace ToDoList.Controllers
       _db = db;
     }
 
-    //updated Index method
-    public async Task<ActionResult> Index()
+      
+    public ActionResult Index()
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      var userItems = _db.Items.Where(entry => entry.User.Id == currentUser.Id);
-      return View(userItems);
+        return View(_db.Items.ToList());
     }
 
     public ActionResult Create()
@@ -41,20 +38,16 @@ namespace ToDoList.Controllers
       return View();
     }
 
-    //updated Create post method
     [HttpPost]
-    public async Task<ActionResult> Create(Item item, int CategoryId)
+    public ActionResult Create(Item item, int CategoryId)
     {
-      var userId = this.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-      var currentUser = await _userManager.FindByIdAsync(userId);
-      item.User = currentUser;
-      _db.Items.Add(item);
-      if (CategoryId != 0)
-      {
-        _db.CategoryItem.Add(new CategoryItem() { CategoryId = CategoryId, ItemId = item.ItemId });
-      }
-      _db.SaveChanges();
-      return RedirectToAction("Index");
+        _db.Items.Add(item);
+        if (CategoryId != 0)
+        {
+            _db.CategoryItem.Add(new CategoryItem() { CategoryId = CategoryId, ItemId = item.ItemId });
+        }
+        _db.SaveChanges();
+        return RedirectToAction("Index");
     }
 
     public ActionResult Details(int id)

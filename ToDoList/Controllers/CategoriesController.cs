@@ -34,15 +34,6 @@ namespace ToDoList.Controllers
       return RedirectToAction("Index");
     }
 
-    public ActionResult Details(int id)
-    {
-      var thisCategory = _db.Categories
-          .Include(category => category.Items)
-          .ThenInclude(join => join.Item)
-          .FirstOrDefault(category => category.CategoryId == id);
-      return View(thisCategory);
-    }
-
     public ActionResult Edit(int id)
     {
       var thisCategory = _db.Categories.FirstOrDefault(category => category.CategoryId == id);
@@ -70,6 +61,14 @@ namespace ToDoList.Controllers
       _db.Categories.Remove(thisCategory);
       _db.SaveChanges();
       return RedirectToAction("Index");
+    }
+    public ActionResult Details(int id)
+    { 
+    var thisCategory = _db.Categories
+        .Include(category => category.Items)
+        .ThenInclude(join => join.Item)
+        .FirstOrDefault(category => category.CategoryId == id);
+    return View(thisCategory);
     }
   }
 }
